@@ -1,7 +1,7 @@
 'use strict';
 
 const router = require('express').Router();
-const user = require('../users/user_model');
+const user = require('../collection/user_model');
 const userDataFlow = require('../user-data-flow');
 
 router.post('/signup', signupUser);

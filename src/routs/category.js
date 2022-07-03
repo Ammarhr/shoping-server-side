@@ -2,30 +2,25 @@
 
 const router = require('express').Router();
 const berar = require('../middleware/berarauth');
-const product = require('../collection/_product');
+const category = require('../collection/_category');
 
-router.post('/product', berar, (req, res) => {
-    let productInfo = {
-        category_id: req.body.category_id,
+router.post('/category', berar, (req, res) => {
+    let categoryInfo = {
         title: req.body.title,
-        over_view: req.body.over_view,
-        price: req.body.price,
-        img_url: req.body.img_url,
-        quantity: req.body.quantity,
     }
-    product.createProduct(productInfo)
+
+    category.createCategory(categoryInfo)
         .then(result => {
-            res.status(201).send(result);
+            res.status(201).send(result.rows);
         }).catch(err => {
             console.log(err, 'message');
             res.status(206);
         })
 });
 
+router.get('/category', (req, res) => {
 
-router.get('/product', (req, res) => {
-
-    product.getProducts()
+    category.getCategories()
         .then(result => {
             res.status(200).send(result.rows);
         }).catch(err => {
@@ -34,11 +29,11 @@ router.get('/product', (req, res) => {
         })
 });
 
-router.delete('/product/:id', berar, (req, res) => {
+router.delete('/category/:id', berar, (req, res) => {
 
     let _id = req.params.id;
 
-    product.deleteProduct(_id)
+    category.deleteCategory(_id)
         .then(result => {
             res.status(200).send(result);
         }).catch(err => {
