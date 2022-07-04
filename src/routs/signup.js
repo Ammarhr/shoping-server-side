@@ -8,7 +8,7 @@ router.post('/signup', signupUser);
 
 async function signupUser(req, res) {
     let userInfo = req.body;
-    console.log(userInfo, 'this is the user from the sigup');
+
     userDataFlow.hashPassword(userInfo.user_password).then((pass) => {
 
         let userData = {
@@ -29,12 +29,11 @@ async function signupUser(req, res) {
                 });
                 res.status(201).send(token);
             }).catch((err) => {
-                console.log('wallah error');
                 res.status(401).send('error');
             })
             // })
             .catch(err => {
-                console.log('error with password from the body', err);
+                // console.log('error with password from the body', err);
                 res.status(403).send(err);
             })
     }).catch(err => console.log(err, 'message'));
