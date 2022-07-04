@@ -7,7 +7,10 @@ class Product {
         let safeValues = [product.category_id, product.title, product.over_view, product.price, product.img_url, product.quantity];
         return client.query(sql_query, safeValues).then(results => {
             return results;
-        }).catch(err => console.log(err, 'message'));
+        }).catch(err => {
+            console.log(err, 'message')
+            throw err;
+        });
     }
 
     getProducts() {
@@ -16,6 +19,7 @@ class Product {
             return results;
         }).catch(err => {
             console.log(err, 'message')
+            throw err;
         });
     }
 
@@ -24,6 +28,17 @@ class Product {
         let safeValue = [_id];
         return client.query(sql_query, safeValue).then(results => {
                 return 'category deleted';
+            }).then()
+            .catch(err => {
+                console.log(err, 'message')
+            });
+    }
+    updateProduct(_id, product) {
+
+        let sql_query = 'UPDATE product SET category_id=$1, title=$2, over_view=$3, price=$4, img_url=$5, quantity=$6 WHERE id=$7;';
+        let safeValues = [product.category_id, product.title, product.over_view, product.price, product.img_url, product.quantity, _id];
+        return client.query(sql_query, safeValues).then(results => {
+                return results;
             }).then()
             .catch(err => {
                 console.log(err, 'message')

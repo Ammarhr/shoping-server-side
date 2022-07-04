@@ -2,20 +2,19 @@ const base64 = require('base-64');
 const userDataFlow = require('../user-data-flow');
 
 module.exports = (req, res, next) => {
+    // check he headers if exist
     if (req.headers.authorization) {
         let basic = req.headers.authorization.split(' ').pop();
-        console.log('this is the basic auth user and pass', base64.decode(basic).split(':'));
-
         const [user, pass] = base64.decode(basic).split(':');
-        console.log('heloooo--------->', user, pass);
 
+        // check the basic authorization(username & password)
         userDataFlow.basicAuth(user, pass)
             .then((validUser) => {
                 req.token = userDataFlow.getToken(validUser);
                 next();
             })
             .catch(err => {
-                console.log('siiiiiiiiiiiiiiiiiiiiin', err)
+                console.log(err);
                 res.status(500).send('wrong password');
             })
     } else {

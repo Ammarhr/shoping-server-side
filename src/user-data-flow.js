@@ -16,15 +16,12 @@ class UserDataFlow {
     }
     getToken(user) {
         let token = jwt.sign({ user_name: user.user_name }, SECRET);
-        console.log(token, 'this is the user');
         return token;
     }
     async basicAuth(userName, pass) {
         const dataUser = await user.readUser(userName);
-        // console.log('fromdatabase------------>', dataUser);
         let logPass = await dataUser.rows[0].user_password;
         let valid = await bcrypt.compare(pass, logPass)
-        console.log('the is the valid ---->', valid);
         return valid ? dataUser.rows[0] : Promise.reject();
     }
 
@@ -33,12 +30,11 @@ class UserDataFlow {
         return jwt.verify(token, SECRET, async function(err, decoded) {
             if (err) {
 
-                console.log('Error :INVALID SECRET OR TOKEN ');
+                console.log('Error :INVALID SECRET OR TOKEN');
                 return Promise.reject(err);
             }
             let username = decoded.user_name;
             let dataRecord = await user.readUser(username);
-            // console.log('the user in verify', dataRecord);
             if (dataRecord) {
                 return Promise.resolve(decoded);
             }
