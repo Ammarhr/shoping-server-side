@@ -9,7 +9,6 @@ module.exports = (req, res, next) => {
         return;
     }
     const bearerToken = req.headers.authorization.split(' ').pop();
-    // console.log('this is the token=----------->', bearerToken);
     users.verifyToken(bearerToken).then(userInfo => {
         req.user = userInfo;
         next();

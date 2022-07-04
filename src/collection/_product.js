@@ -7,7 +7,10 @@ class Product {
         let safeValues = [product.category_id, product.title, product.over_view, product.price, product.img_url, product.quantity];
         return client.query(sql_query, safeValues).then(results => {
             return results;
-        }).catch(err => console.log(err, 'message'));
+        }).catch(err => {
+            console.log(err, 'message')
+            throw err;
+        });
     }
 
     getProducts() {
@@ -16,6 +19,7 @@ class Product {
             return results;
         }).catch(err => {
             console.log(err, 'message')
+            throw err;
         });
     }
 

@@ -15,7 +15,7 @@ module.exports = (req, res, next) => {
                 next();
             })
             .catch(err => {
-                console.log('siiiiiiiiiiiiiiiiiiiiin', err)
+                console.log(err);
                 res.status(500).send('wrong password');
             })
     } else {

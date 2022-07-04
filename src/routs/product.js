@@ -11,7 +11,7 @@ router.post('/product', berar, (req, res) => {
         over_view: req.body.over_view,
         price: req.body.price,
         img_url: req.body.img_url,
-        quantity: req.body.quantity,
+        quantity: typeof req.body.quantity == "string" ? parseInt(req.body.quantity) : req.body.quantity,
     }
     product.createProduct(productInfo)
         .then(result => {
