@@ -11,16 +11,15 @@ async function signupUser(req, res) {
 
     userDataFlow.hashPassword(userInfo.user_password).then((pass) => {
 
-        let userData = {
-                user_name: userInfo.user_name,
-                user_password: pass,
-                email: userInfo.email
-            }
-            // return user.deletAll().then(() => {
+            let userData = {
+                    user_name: userInfo.user_name,
+                    user_password: pass,
+                    email: userInfo.email
+                }
+                // return user.deletAll().then(() => {
 
-        return user.create(userData).then((results) => {
-
-                let token = userDataFlow.getToken(results);
+            return user.create(userData).then((results) => {
+                let token = userDataFlow.getToken(results[0]);
                 let day = 86400000;
 
                 res.cookie('user_token', token, {
@@ -31,12 +30,12 @@ async function signupUser(req, res) {
             }).catch((err) => {
                 res.status(401).send('error');
             })
-            // })
-            .catch(err => {
-                // console.log('error with password from the body', err);
-                res.status(403).send(err);
-            })
-    }).catch(err => console.log(err, 'message'));
+        })
+        .catch(err => {
+            console.log('error with password from the body', err);
+            res.status(403).send(err);
+        })
+        // }).catch(err => console.log(err, 'message'));
 }
 
 module.exports = router;
