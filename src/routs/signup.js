@@ -14,7 +14,8 @@ async function signupUser(req, res) {
             let userData = {
                     user_name: userInfo.user_name,
                     user_password: pass,
-                    email: userInfo.email
+                    email: userInfo.email,
+                    role_name: userInfo.role_name
                 }
                 // return user.deletAll().then(() => {
 

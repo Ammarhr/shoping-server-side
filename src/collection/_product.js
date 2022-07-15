@@ -44,7 +44,36 @@ class Product {
                 console.log(err, 'message')
             });
     }
+    addComment(review, product_id) {
 
+        let sql_query = 'INSERT INTO comments (product_id, review) VALUES ($1, $2) RETURNING*;';
+        let safeValues = [product_id, review];
+        return client.query(sql_query, safeValues).then(results => {
+            return results;
+        }).catch(err => {
+            console.log(err);
+            throw { err, msg: 'something went wrong or the product is not exist' };
+        });
+    }
+
+    getComments() {
+        let sql_query = 'SELECT * FROM comments;';
+        return client.query(sql_query).then(results => {
+            return results;
+        }).catch(err => {
+            console.log(err);
+            throw err;
+        })
+    }
+    getProductComments(_id) {
+        let sql_query = 'SELECT * FROM comments WHERE product_id=$1;';
+        let safeValue = [_id]
+        return client.query(sql_query, safeValue).then(results => {
+            return results;
+        }).catch(err => {
+            console.log(err);
+            throw err;
+        })
+    }
 }
-
 module.exports = new Product();

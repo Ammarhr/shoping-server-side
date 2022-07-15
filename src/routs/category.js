@@ -2,9 +2,10 @@
 
 const router = require('express').Router();
 const berar = require('../middleware/berarauth');
+const acl = require('../middleware/acl');
 const category = require('../collection/_category');
 
-router.post('/category', berar, (req, res) => {
+router.post('/category', berar, acl('admin'), (req, res) => {
     let categoryInfo = {
         title: req.body.title,
     }
@@ -29,7 +30,7 @@ router.get('/category', (req, res) => {
         })
 });
 
-router.delete('/category/:id', berar, (req, res) => {
+router.delete('/category/:id', berar, acl('admin'), (req, res) => {
 
     let _id = req.params.id;
 

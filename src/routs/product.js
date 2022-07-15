@@ -3,8 +3,9 @@
 const router = require('express').Router();
 const berar = require('../middleware/berarauth');
 const product = require('../collection/_product');
+const acl = require('../middleware/acl');
 
-router.post('/product', berar, (req, res) => {
+router.post('/product', berar, acl('admin'), (req, res) => {
     let productInfo = {
         category_id: req.body.category_id,
         title: req.body.title,
@@ -32,7 +33,7 @@ router.get('/product', (req, res) => {
         })
 });
 
-router.delete('/product/:id', berar, (req, res) => {
+router.delete('/product/:id', berar, acl('admin'), (req, res) => {
 
     let _id = req.params.id;
     product.deleteProduct(_id)
@@ -44,7 +45,7 @@ router.delete('/product/:id', berar, (req, res) => {
         })
 });
 
-router.put('/product/:id', berar, (req, res) => {
+router.put('/product/:id', berar, acl('admin'), (req, res) => {
     let productInfo = {
         category_id: req.body.category_id,
         title: req.body.title,
@@ -62,5 +63,44 @@ router.put('/product/:id', berar, (req, res) => {
             res.status(206);
         })
 });
+
+router.post('/addcomment/:id', berar, (req, res) => {
+    console.log('from comments', req.body.review, req.params.id);
+    product.addComment(req.body.review, req.params.id).then(result => {
+        res.status(201).send(result);
+    }).catch(err => {
+        res.status(403).send(err.msg)
+    })
+
+});
+
+router.get('/comments', berar, (req, res) => {
+
+    product.getComments().then(result => {
+        res.status(201).send(result);
+    }).catch(err => {
+        res.status(403).send(err.msg)
+    })
+});
+
+router.get('/comments/:id', berar, (req, res) => {
+
+    product.getProductComments(req.params.id).then(result => {
+        res.status(201).send(result);
+    }).catch(err => {
+        res.status(403).send(err.msg)
+    })
+});
+
+router.put('/updatecomment/:id', berar, (req, res) => {
+    // console.log('from comments', req.body.review, req.params.id);
+    // product.updateComment(req.body.review, req.params.id).then(result => {
+    //     res.status(201).send(result);
+    // }).catch(err => {
+    //     res.status(403).send(err.msg)
+    // })
+
+});
+
 
 module.exports = router;

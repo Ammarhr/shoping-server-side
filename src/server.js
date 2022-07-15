@@ -5,6 +5,7 @@ const signupRoute = require('./routs/signup');
 const signInRoute = require('./routs/signin');
 const productRoute = require('./routs/product');
 const categoryRoute = require('./routs/category');
+const admin = require('./routs/admin');
 require('dotenv').config();
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(signupRoute);
 app.use(signInRoute);
 app.use(categoryRoute);
 app.use(productRoute);
+app.use(admin);
 
 app.get('*', (req, res) => {
     res.status(404).send('page not found');

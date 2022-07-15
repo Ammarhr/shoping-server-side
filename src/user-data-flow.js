@@ -15,7 +15,7 @@ class UserDataFlow {
         }
     }
     getToken(user) {
-        let token = jwt.sign({ user_name: user.user_name }, SECRET);
+        let token = jwt.sign({ user_name: user.user_name, role_name: user.role_name }, SECRET);
         return token;
     }
     async basicAuth(userName, pass) {
