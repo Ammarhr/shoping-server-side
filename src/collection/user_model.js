@@ -31,8 +31,14 @@ class User {
     }
 
     updateUser(user_name, roleName) {
+        let role = '';
+        if (roleName == 'user') {
+            role = 'admin'
+        } else {
+            role = 'user'
+        }
         let sql_query = 'UPDATE users SET  role_name=$1 WHERE user_name=$2 RETURNING*;'
-        let safeValues = [roleName, user_name]
+        let safeValues = [role, user_name]
         return client.query(sql_query, safeValues).then(result => {
             return result
         }).catch(err => { throw { err: err, msg: 'something went wrong' } })
@@ -64,6 +70,13 @@ class User {
             return results;
         }).catch(err => {
             throw { err, msg: 'something went wrong' }
+        })
+    }
+
+    getAllUsers() {
+        let sql_query = 'SELECT * FROM users;'
+        return client.query(sql_query).then((results) => {
+            return results;
         })
     }
 }

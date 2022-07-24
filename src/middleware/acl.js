@@ -1,5 +1,3 @@
-const users = require('../user-data-flow');
-
 module.exports = (role) => {
 
     return (req, res, next) => {
